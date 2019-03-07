@@ -65,11 +65,12 @@ public class controller {
           }
           // if username matches seller, apply changes
           if (users[i] == seller) {
-            user[i] -= credit.parseDouble();
+            user[i].setCredit -= credit.parseDouble();
           }
         }
       } else {
-        System.error("Constraint Error: Transaction not apart of addcredit action")
+        System.error("Fatal Error: Transaction not apart of addcredit action");
+	System.exit(0);
       }
     }
   }
