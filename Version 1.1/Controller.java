@@ -4,13 +4,14 @@
 * @author  Abhiram Sinnarajah
 * @author  Aaron Williams
 * @date 9 Mar 2019
-* @version 1.0.2
+* @version 1.1
 * @brief Runs the main program logic of the back end.
 */
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.File;
 
 public class Controller {
     // member variables
@@ -142,11 +143,11 @@ public class Controller {
                   users  An ArrayList object that contains all the user's on the Current User Accounts File
     * @return void
     */
-    public void addCredit(string trn, ArrayList<User> users) {
+    public void addCredit(String trn, ArrayList<User> users) {
       // method to add credit to a user based on the information provided from the array list and transaction
 
       if (trn.length() != 31) {
-        System.error.println("Transaction length is incorrect");
+        System.err.println("Transaction length is incorrect");
         System.exit(0);
       } else {
         // here I am parsing the string whih are information needed to create a new User object.
@@ -159,13 +160,13 @@ public class Controller {
         // another safety check
         if (id == "06") {
           // find the matching user object from list
-          for (int i=0; i<users.length; i++) {
-            if (users[i] == username) {
-              user[i].setCredit += credit.parseDouble();
+          for (int i=0; i<users.size(); i++) {
+            if (users.get(i).getName().equals(username)) {
+              users.get(i).setCredit(users.get(i).getCredit() + Double.parseDouble(credit));
             }
           }
         } else {
-          System.error("Constraint Error: Transaction not apart of addcredit action")
+          System.err.println("Constraint Error: Transaction not apart of addcredit action");
         }
       }
     }
@@ -177,11 +178,11 @@ public class Controller {
                   users  An ArrayList object that contains all the user's on the Current User Accounts File
     * @return void
     */
-    public void refundCredit(string trn, ArrayList<User> users) {
+    public void refundCredit(String trn, ArrayList<User> users) {
       // method to refund credit to a user based on the information provided from the array list and transaction
 
       if (trn.length() != 45) {
-        System.error.println("Transaction length is incorrect");
+        System.err.println("Transaction length is incorrect");
         System.exit(0);
       } else {
         String id, buyer, seller, credit;
@@ -193,19 +194,19 @@ public class Controller {
         // another safety check
         if (id == "05") {
           // find the matching user object from list
-          for (int i=0; i<users.length; i++) {
+          for (int i=0; i<users.size(); i++) {
             // if username matches buyer, apply changes
-            if (users[i] == buyer) {
-              user[i].setCredit += credit.parseDouble();
+            if (users.get(i).getName().equals(buyer)) {
+              users.get(i).setCredit(users.get(i).getCredit() + Double.parseDouble(credit));
             }
             // if username matches seller, apply changes
-            if (users[i] == seller) {
-              user[i].setCredit -= credit.parseDouble();
+            if (users.get(i).getName().equals(seller)) {
+              users.get(i).setCredit(users.get(i).getCredit() - Double.parseDouble(credit));
             }
           }
         } else {
-          System.error("Fatal Error: Transaction not apart of addcredit action");
-  	      System.exit(0);
+            System.err.println("Fatal Error: Transaction not apart of addcredit action");
+  	    System.exit(0);
         }
       }
     }
