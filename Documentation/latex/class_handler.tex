@@ -1,0 +1,126 @@
+\section{Handler Class Reference}
+\label{class_handler}\index{Handler@{Handler}}
+
+
+Inherited by \textbf{ Event}, and \textbf{ User}.
+
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \textbf{ parse\+Value} (String trn, boolean remove\+Whitespace, int offset, int end)
+\item 
+String \textbf{ padd\+Spaces} (int data\+Type, String value)
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\label{class_handler_abfb4b8c03aa76943e15a476d94b44741}} 
+static final int {\bfseries L\+E\+N\+G\+T\+H\+\_\+\+U\+S\+ER} = 15
+\item 
+\mbox{\label{class_handler_a3f9bfaf65c9bd027e26376764c429da0}} 
+static final int {\bfseries L\+E\+N\+G\+T\+H\+\_\+\+T\+Y\+PE} = 2
+\item 
+\mbox{\label{class_handler_a4122df995abe23067bff9cd83d5e45ca}} 
+static final int {\bfseries L\+E\+N\+G\+T\+H\+\_\+\+C\+R\+ED} = 9
+\item 
+\mbox{\label{class_handler_a4ef2dfee6d27e313b3ba92d7efe2a9fb}} 
+static final int {\bfseries L\+E\+N\+G\+T\+H\+\_\+\+E\+V\+E\+NT} = 25
+\item 
+\mbox{\label{class_handler_ae93869af53aa3fbe3a8c6c44e72024fe}} 
+static final int {\bfseries L\+E\+N\+G\+T\+H\+\_\+\+T\+I\+C\+K\+ET} = 3
+\item 
+\mbox{\label{class_handler_af651a9c166d2a1fe92907d9c20c8cb3c}} 
+static final int {\bfseries L\+E\+N\+G\+T\+H\+\_\+\+P\+R\+I\+CE} = 6
+\item 
+\mbox{\label{class_handler_af8e3692582a86f10572e3c51a51d96ab}} 
+static final int {\bfseries K\+E\+Y\+\_\+\+U\+S\+ER} = 1
+\item 
+\mbox{\label{class_handler_a2c5b46de72e443ed3e42c3e256c95739}} 
+static final int {\bfseries K\+E\+Y\+\_\+\+T\+Y\+PE} = 2
+\item 
+\mbox{\label{class_handler_a1454d5998bf118b9d00d62f19d63f2d8}} 
+static final int {\bfseries K\+E\+Y\+\_\+\+C\+R\+ED} = 3
+\item 
+\mbox{\label{class_handler_a63c355f040a3f99e838003a135dc5265}} 
+static final int {\bfseries K\+E\+Y\+\_\+\+E\+V\+E\+NT} = 4
+\item 
+\mbox{\label{class_handler_a089d51a879f07ed75059ed6af9910636}} 
+static final int {\bfseries K\+E\+Y\+\_\+\+T\+I\+C\+K\+ET} = 5
+\item 
+\mbox{\label{class_handler_a7a62ffdfc06bc6bb136d50b648a68cd3}} 
+static final int {\bfseries K\+E\+Y\+\_\+\+P\+R\+I\+CE} = 6
+\item 
+\mbox{\label{class_handler_ab776366572aa61a50aff6f51199dbb4c}} 
+static final String {\bfseries K\+E\+Y\+\_\+\+E\+ND} = \char`\"{}E\+ND\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+An abstract handler class containing useful functions to help manipulate data.
+
+\begin{DoxyAuthor}{Author}
+Stephanie Phung 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+1 
+\end{DoxyVersion}
+
+
+Definition at line 9 of file Handler.\+java.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\label{class_handler_ac85502ef86e011faa905f0942bd70603}} 
+\index{Handler@{Handler}!paddSpaces@{paddSpaces}}
+\index{paddSpaces@{paddSpaces}!Handler@{Handler}}
+\subsubsection{paddSpaces()}
+{\footnotesize\ttfamily String Handler.\+padd\+Spaces (\begin{DoxyParamCaption}\item[{int}]{data\+Type,  }\item[{String}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Adds spaces or zeroes as padding to data, as necessary.
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\+Type} & unique key of the type of data. \\
+\hline
+{\em value} & the value of the data to padd. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String the padded data. 
+\end{DoxyReturn}
+
+
+Definition at line 55 of file Handler.\+java.
+
+\mbox{\label{class_handler_aae6a64283703bfdce046607c229215de}} 
+\index{Handler@{Handler}!parseValue@{parseValue}}
+\index{parseValue@{parseValue}!Handler@{Handler}}
+\subsubsection{parseValue()}
+{\footnotesize\ttfamily String Handler.\+parse\+Value (\begin{DoxyParamCaption}\item[{String}]{trn,  }\item[{boolean}]{remove\+Whitespace,  }\item[{int}]{offset,  }\item[{int}]{end }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Returns a value with whitespace removed if necessary.
+
+
+\begin{DoxyParams}{Parameters}
+{\em trn} & transaction string of the data. \\
+\hline
+{\em remove\+Whitespace} & true if we need to remove whitespace. \\
+\hline
+{\em offset} & the beginning of the string value in the transaction string. \\
+\hline
+{\em end} & points to the end of the string value in the transaction string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String the trimmed value. 
+\end{DoxyReturn}
+
+
+Definition at line 34 of file Handler.\+java.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Handler.\+java\end{DoxyCompactItemize}

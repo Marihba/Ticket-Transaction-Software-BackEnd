@@ -1,0 +1,247 @@
+\section{Controller Class Reference}
+\label{class_controller}\index{Controller@{Controller}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ add\+Credit} (String trn, Array\+List$<$ \textbf{ User} $>$ users)
+\begin{DoxyCompactList}\small\item\em To update a current user\textquotesingle{}s available credit based on the specified amount indiciated by the transaction string of a current user. \end{DoxyCompactList}\item 
+void \textbf{ refund\+Credit} (String trn, Array\+List$<$ \textbf{ User} $>$ users)
+\begin{DoxyCompactList}\small\item\em To update a buyer\textquotesingle{}s available credit and seller\textquotesingle{}s available credit based on the specified amount indiciated by the transaction string of a current user. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Array\+List$<$ \textbf{ User} $>$ \textbf{ parse\+Users} (String file\+Name)
+\item 
+static Array\+List$<$ \textbf{ Event} $>$ \textbf{ parse\+Events} (String file\+Name)
+\item 
+static void \textbf{ create\+User} (String trn, Array\+List$<$ \textbf{ User} $>$ users)
+\item 
+static void \textbf{ delete\+User} (String trn, Array\+List$<$ \textbf{ User} $>$ users)
+\item 
+static void \textbf{ create\+Event} (String trn, Array\+List$<$ \textbf{ Event} $>$ events)
+\item 
+static void \textbf{ delete\+Event} (String trn, Array\+List$<$ \textbf{ Event} $>$ events)
+\item 
+static void \textbf{ enforce\+Rules} (String id)
+\begin{DoxyCompactList}\small\item\em Applies the changes based on the id from each transaction line. Invokes necessary methods for each matched possble actions (create, delete, buy, sell, addcredit and refund). \end{DoxyCompactList}\item 
+static void \textbf{ main} (String[$\,$] args)
+\begin{DoxyCompactList}\small\item\em This is the main program logic. Also ensures standard saftey checks are met and also calls all necessary functions that result in modification of two files (user accounts \& available tickets). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 16 of file Controller.\+java.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\label{class_controller_ac2f910dd12648566a98947d867c13b1e}} 
+\index{Controller@{Controller}!addCredit@{addCredit}}
+\index{addCredit@{addCredit}!Controller@{Controller}}
+\subsubsection{addCredit()}
+{\footnotesize\ttfamily void Controller.\+add\+Credit (\begin{DoxyParamCaption}\item[{String}]{trn,  }\item[{Array\+List$<$ \textbf{ User} $>$}]{users }\end{DoxyParamCaption})}
+
+
+
+To update a current user\textquotesingle{}s available credit based on the specified amount indiciated by the transaction string of a current user. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em trn} & A string representation of a transaction from the merged Daily transaction File (D\+TF) users An Array\+List object that contains all the user\textquotesingle{}s on the Current \doxyref{User}{p.}{class_user} Accounts File \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+Definition at line 146 of file Controller.\+java.
+
+\mbox{\label{class_controller_a70c69721b53c2b16ff217a6972e97f30}} 
+\index{Controller@{Controller}!createEvent@{createEvent}}
+\index{createEvent@{createEvent}!Controller@{Controller}}
+\subsubsection{createEvent()}
+{\footnotesize\ttfamily static void Controller.\+create\+Event (\begin{DoxyParamCaption}\item[{String}]{trn,  }\item[{Array\+List$<$ \textbf{ Event} $>$}]{events }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Creates an event and adds it to the Array\+List.
+
+
+\begin{DoxyParams}{Parameters}
+{\em trn} & transaction string containing the event data. \\
+\hline
+{\em events} & the array list to add to. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 117 of file Controller.\+java.
+
+\mbox{\label{class_controller_a92f8d3f847660508d038602c89d53e37}} 
+\index{Controller@{Controller}!createUser@{createUser}}
+\index{createUser@{createUser}!Controller@{Controller}}
+\subsubsection{createUser()}
+{\footnotesize\ttfamily static void Controller.\+create\+User (\begin{DoxyParamCaption}\item[{String}]{trn,  }\item[{Array\+List$<$ \textbf{ User} $>$}]{users }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Creates a user and adds it to the Array\+List.
+
+
+\begin{DoxyParams}{Parameters}
+{\em trn} & transaction string containing the user data. \\
+\hline
+{\em users} & the array list to add to. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 89 of file Controller.\+java.
+
+\mbox{\label{class_controller_a351da91719ad17b413d8d05041dac194}} 
+\index{Controller@{Controller}!deleteEvent@{deleteEvent}}
+\index{deleteEvent@{deleteEvent}!Controller@{Controller}}
+\subsubsection{deleteEvent()}
+{\footnotesize\ttfamily static void Controller.\+delete\+Event (\begin{DoxyParamCaption}\item[{String}]{trn,  }\item[{Array\+List$<$ \textbf{ Event} $>$}]{events }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Deletes the object that matches the given transaction string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em trn} & transaction string containing data to delete. \\
+\hline
+{\em events} & search through this array list and delete the right object. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 128 of file Controller.\+java.
+
+\mbox{\label{class_controller_a42789d87da792ada93c86ddd0c725633}} 
+\index{Controller@{Controller}!deleteUser@{deleteUser}}
+\index{deleteUser@{deleteUser}!Controller@{Controller}}
+\subsubsection{deleteUser()}
+{\footnotesize\ttfamily static void Controller.\+delete\+User (\begin{DoxyParamCaption}\item[{String}]{trn,  }\item[{Array\+List$<$ \textbf{ User} $>$}]{users }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Deletes the object that matches the given transaction string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em trn} & transaction string containing data to delete. \\
+\hline
+{\em users} & search through this array list and delete the right object. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 100 of file Controller.\+java.
+
+\mbox{\label{class_controller_aa75f2e8071ba9cd314ec5eb6338a35cc}} 
+\index{Controller@{Controller}!enforceRules@{enforceRules}}
+\index{enforceRules@{enforceRules}!Controller@{Controller}}
+\subsubsection{enforceRules()}
+{\footnotesize\ttfamily static void Controller.\+enforce\+Rules (\begin{DoxyParamCaption}\item[{String}]{id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Applies the changes based on the id from each transaction line. Invokes necessary methods for each matched possble actions (create, delete, buy, sell, addcredit and refund). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em id} & Identifies each transaction line based on either types of transactions. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+Definition at line 220 of file Controller.\+java.
+
+\mbox{\label{class_controller_a173fe03517370b8cbd226184a1a4554a}} 
+\index{Controller@{Controller}!main@{main}}
+\index{main@{main}!Controller@{Controller}}
+\subsubsection{main()}
+{\footnotesize\ttfamily static void Controller.\+main (\begin{DoxyParamCaption}\item[{String [$\,$]}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+This is the main program logic. Also ensures standard saftey checks are met and also calls all necessary functions that result in modification of two files (user accounts \& available tickets). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em args} & Contains the supplied command-\/line-\/arguments, if any as an array of String objects. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+Definition at line 260 of file Controller.\+java.
+
+\mbox{\label{class_controller_a4d02fe42e4acf7185d162f1a97e5ccfa}} 
+\index{Controller@{Controller}!parseEvents@{parseEvents}}
+\index{parseEvents@{parseEvents}!Controller@{Controller}}
+\subsubsection{parseEvents()}
+{\footnotesize\ttfamily static Array\+List$<$\textbf{ Event}$>$ Controller.\+parse\+Events (\begin{DoxyParamCaption}\item[{String}]{file\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Parses the tickets file and returns an Array\+List containing all the events.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & file name of file to parse. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Array\+List$<$\+Event$>$ contains all the events found in the file. 
+\end{DoxyReturn}
+
+
+Definition at line 60 of file Controller.\+java.
+
+\mbox{\label{class_controller_a3a8c787fca40d511c1c01d62ff344d65}} 
+\index{Controller@{Controller}!parseUsers@{parseUsers}}
+\index{parseUsers@{parseUsers}!Controller@{Controller}}
+\subsubsection{parseUsers()}
+{\footnotesize\ttfamily static Array\+List$<$\textbf{ User}$>$ Controller.\+parse\+Users (\begin{DoxyParamCaption}\item[{String}]{file\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Parses the current user accounts file and returns an Array\+List containing all the users.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & file name of file to parse. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Array\+List$<$\+User$>$ contains all the users in the file. 
+\end{DoxyReturn}
+
+
+Definition at line 30 of file Controller.\+java.
+
+\mbox{\label{class_controller_a622dcc9bfaf7990b0307ad7d8e9c1f66}} 
+\index{Controller@{Controller}!refundCredit@{refundCredit}}
+\index{refundCredit@{refundCredit}!Controller@{Controller}}
+\subsubsection{refundCredit()}
+{\footnotesize\ttfamily void Controller.\+refund\+Credit (\begin{DoxyParamCaption}\item[{String}]{trn,  }\item[{Array\+List$<$ \textbf{ User} $>$}]{users }\end{DoxyParamCaption})}
+
+
+
+To update a buyer\textquotesingle{}s available credit and seller\textquotesingle{}s available credit based on the specified amount indiciated by the transaction string of a current user. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em trn} & A string representation of a transaction from the merged Daily transaction File (D\+TF) users An Array\+List object that contains all the user\textquotesingle{}s on the Current \doxyref{User}{p.}{class_user} Accounts File \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+Definition at line 181 of file Controller.\+java.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Controller.\+java\end{DoxyCompactItemize}
