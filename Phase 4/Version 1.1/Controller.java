@@ -9,7 +9,9 @@
 */
 import java.util.ArrayList;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
 
@@ -19,6 +21,14 @@ public class Controller {
     private String ticketFile;
     private ArrayList<User> users;
     private ArrayList<Event> events;
+
+    // constructors
+    public Controller(String userFile, String ticketFile, ArrayList<User> users, ArrayList<Event> events) {
+      this.userFile = userFile;
+      this.ticketFile = ticketFile;
+      this.users = users;
+      this.events = events;
+    }
 
     /**
      * Parses the current user accounts file and returns an ArrayList
@@ -150,25 +160,16 @@ public class Controller {
         System.err.println("Transaction length is incorrect");
         System.exit(0);
       } else {
-        // here I am parsing the string whih are information needed to create a new User object.
-        String id, username, userType, credit;
-        id = trn.substring(0, 2);
-        username = trn.substring(3, 18);
-        userType = trn.substring(19, 21);
-        credit = trn.substring(22, 31);
-
-        // another safety check
-        if (id == "06") {
-          // find the matching user object from list
-          for (int i=0; i<users.size(); i++) {
-            if (users.get(i).getName().equals(username)) {
-              users.get(i).setCredit(users.get(i).getCredit() + Double.parseDouble(credit));
+        String username = trn.substring(3, 18);
+        String credit = trn.substring(22, 31);
+        for (int i=0; i<users.size(); i++) {
+          if (username.equals(users.get(i).paddUsername())) {
+            users.get(i).setCredit(Double.parseDouble(credit));
+          } else {
+            System.out.println("Error: seems user doesn't exist in the system.");
             }
           }
-        } else {
-          System.err.println("Constraint Error: Transaction not apart of addcredit action");
-        }
-      }
+       }
     }
 
     /**
@@ -178,37 +179,26 @@ public class Controller {
                   users  An ArrayList object that contains all the user's on the Current User Accounts File
     * @return void
     */
-    public void refundCredit(String trn, ArrayList<User> users) {
+    public void refundCredit(String buyer, String seller, String credit, ArrayList<User> users) {
       // method to refund credit to a user based on the information provided from the array list and transaction
+      boolean checkBuyer = true;
+      boolean checkSeller =  true;
 
-      if (trn.length() != 45) {
-        System.err.println("Transaction length is incorrect");
-        System.exit(0);
-      } else {
-        String id, buyer, seller, credit;
-        id = trn.substring(0, 2);
-        buyer = trn.substring(3, 18);
-        seller = trn.substring(18, 33);
-        credit = trn.substring(34, 45);
-
-        // another safety check
-        if (id == "05") {
-          // find the matching user object from list
-          for (int i=0; i<users.size(); i++) {
-            // if username matches buyer, apply changes
-            if (users.get(i).getName().equals(buyer)) {
+      // find the matching user object from list
+        for (int i=0; i<users.size(); i++) {
+          if (checkBuyer) {
+            if (buyer.equals(users.get(i).paddUsername())) {
               users.get(i).setCredit(users.get(i).getCredit() + Double.parseDouble(credit));
-            }
-            // if username matches seller, apply changes
-            if (users.get(i).getName().equals(seller)) {
-              users.get(i).setCredit(users.get(i).getCredit() - Double.parseDouble(credit));
+              checkBuyer = false;
             }
           }
-        } else {
-            System.err.println("Fatal Error: Transaction not apart of addcredit action");
-  	    System.exit(0);
+          if (checkSeller) {
+            if (seller.equals(users.get(i).paddUsername())) {
+              users.get(i).setCredit(users.get(i).getCredit() - Double.parseDouble(credit));
+              checkSeller = false;
+            }
+          }
         }
-      }
     }
 
     /**
@@ -217,37 +207,55 @@ public class Controller {
     * @param [in] id     Identifies each transaction line based on either types of transactions.
     * @return void
     */
-    public static void enforceRules(String id) {
-      switch (id) {
-        case "01":
-          // will include actions here for create
-          System.out.println("Applying steps for create!");
-          break;
+    public void enforceRules(String trn) {
+      // identify which action to take
+      String id = trn.substring(0, 2);
+      // no need in checking the separator
+      if (id != "00") {
+        switch (id) {
+          case "01":
+            String cre_Harness_Trn = trn.substring(3, 31);
+            System.out.println("Applying steps for create...");
+            createUser(cre_Harness_Trn, this.users);
+            System.out.println("Complete");
+            break;
 
-        case "02":
-          // will include actions here for delete
-          System.out.println("Applying steps for delete!");
-          break;
+          case "02":
+            String del_Harness_Trn = trn.substring(3, 31);
+            System.out.println("Applying steps for delete!");
+            deleteUser(del_Harness_Trn, this.users);
+            System.out.println("Complete");
+            break;
 
-        case "03":
-          // will include actions here for sell
-          System.out.println("Applying steps for sell!");
-          break;
+          case "03":
+            String sel_Harness_Trn = trn.substring(3, 55);
+            System.out.println("Applying steps for sell!");
+            createEvent(sel_Harness_Trn, this.events);
+            System.out.println("Complete");
+            break;
 
-        case "04":
-          // will include actions here for v
-          System.out.println("Applying steps for buy!");
-          break;
+          case "04":
+            System.out.println("Applying steps for buy!");
+              // still working on this
 
-        case "05":
-          // will include actions here for refund
-          System.out.println("Applying steps for refund!");
-          break;
+            System.out.println("Complete");
+            break;
 
-        case "06":
-          // will include actions here for addcredit
-          System.out.println("Applying steps for addcredit!");
-          break;
+          case "05":
+            System.out.println("Applying steps for refund!");
+            String buyer = trn.substring(3, 18);
+            String seller = trn.substring(19, 34);
+            String credit = trn.substring(35, 44);
+            refundCredit(buyer, seller, credit, this.users);
+            System.out.println("Complete");
+            break;
+
+          case "06":
+            System.out.println("Applying steps for addcredit!");
+            addCredit(trn, this.users);
+            System.out.println("Complete");
+            break;
+        }
       }
     }
 
@@ -258,19 +266,56 @@ public class Controller {
     * @return void
     */
     public static void main(String[] args) {
-        // step one: read in the mergedDTF fileName
-        try { File mergedDTF = new File("merged_DTF.data");
-          FileReader dtf_fr = new FileReader(mergedDTF);
-          BufferedReader dtf_br = new BufferedReader(dtf_fr);
-          String trn_line;
-          while ((trn_line = dtf_br.readLine()) != null) {
-            // step two: apply steps based on these per line instruction.
-            enforceRules(trn_line.substring(0, 2));
-          }
-        } catch (IOException e) {
-          e.printStackTrace();
+      Controller c1 = new Controller("current_user_accounts.data", "available_tickets.data", parseUsers("current_user_accounts.data"), parseEvents("available_tickets.data"));
+
+      //** step one: read in the mergedDTF fileName **
+      try { File mergedDTF = new File("merged_DTF.data");
+        FileReader dtf_fr = new FileReader(mergedDTF);
+        BufferedReader dtf_br = new BufferedReader(dtf_fr);
+        String trn_line;
+        boolean sameFile = false;
+        while ((trn_line = dtf_br.readLine()) != null) {
+          //** step two: apply steps based on these per line instruction. **
+          c1.enforceRules(trn_line);
         }
-      // step three: to apply the changes to onto the both files
-      // todo: create stream to transfter changes onto two new files
+        dtf_br.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+
+      //** step three: to apply the changes to onto the both files **
+
+      // UPDATING userAccounts file
+      try {
+        File userAccounts = new File("current_user_accounts.data");
+        FileWriter uAcc_fw = new FileWriter(userAccounts);
+        BufferedWriter uAcc_bw = new BufferedWriter(uAcc_fw);
+        // whats going in to this file?
+        for (User u : c1.users) {
+          // applies changes to the userAccounts file
+          uAcc_bw.write(u.toTRN() + "\n");
+        }
+        uAcc_bw.write("END                         ");
+        // close these streams
+        uAcc_bw.close();
+      } catch(IOException e) {
+        e.printStackTrace();
+      }
+
+      // UPDATING avaiabletickets file...
+      try {
+        File availableTickets = new File("available_tickets.data");
+        FileWriter availTkts_fw = new FileWriter(availableTickets);
+        BufferedWriter availTkts_bw = new BufferedWriter(availTkts_fw);
+        // whats going in to this file?
+        for (Event e : c1.events) {
+          // applies changes to the availableTickets file
+          availTkts_bw.write(e.toTRN() + '\n');
+        }
+        availTkts_bw.write("END                                                 ");
+        availTkts_bw.close();
+      } catch(IOException e) {
+          e.printStackTrace();
+      }
     }
 }

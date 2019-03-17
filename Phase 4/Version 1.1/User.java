@@ -81,7 +81,7 @@ public class User extends Handler {
      * @param dataType the key for the type of data to parse.
      * @return String the value of the requested data.
      */
-    private String parseData(String trn, int dataType) {        
+    private String parseData(String trn, int dataType) {
         int end = LENGTH_USER; // points to the end of the string
         int offset = 0; // points to the beginning of the string
         boolean removeWhitespace = true; // typically used for non-numerical data
@@ -100,5 +100,14 @@ public class User extends Handler {
 
         // Returns the requested data.
         return parseValue(trn, removeWhitespace, offset, end);
+    }
+
+    // for testing purposes only
+    public String toString() {
+      return this.username + " " + this.userType + " " + this.credit;
+    }
+
+    public String paddUsername() {
+      return paddSpaces(KEY_USER, this.username);
     }
 }
