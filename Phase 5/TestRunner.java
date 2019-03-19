@@ -1,9 +1,13 @@
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 
+/**
+ * JUnit Runner class to execute all the test cases.
+ *
+ * @author Stephanie Phung
+ * @version 1.2
+ */
 public class TestRunner {
    public static void main(String[] args) {
       Result result = JUnitCore.runClasses(TestUser.class, TestEvent.class);

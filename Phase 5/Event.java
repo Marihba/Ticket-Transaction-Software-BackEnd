@@ -3,7 +3,7 @@
  * A class to manipulate Event objects.
  *
  * @author Stephanie Phung
- * @version 1.1
+ * @version 1.2
  */
 public class Event extends Handler {
     // Private variables for an Event object.
@@ -18,11 +18,13 @@ public class Event extends Handler {
      * @param trn the transaction string container all event data.
      */
     public Event(String trn) {
-        eventName = parseData(trn, KEY_EVENT);
-        if (!eventName.equals(KEY_END)) {
+        if (trn.trim().equals(KEY_END)) {
+            throw new IllegalArgumentException("Invalid trn: \"" + trn + "\".");
+        } else {
+            eventName = parseData(trn, KEY_EVENT);
             seller = parseData(trn, KEY_USER);
             numTickets = Integer.parseInt(parseData(trn, KEY_TICKET));
-            ticketPrice = Double.parseDouble(parseData(trn, KEY_PRICE));
+            ticketPrice = Double.parseDouble(parseData(trn, KEY_PRICE)); 
         }
     }
 

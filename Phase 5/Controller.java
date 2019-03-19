@@ -38,7 +38,7 @@ public class Controller {
      * @return ArrayList<User> contains all the users in the file.
      */
     public static ArrayList<User> parseUsers(String fileName) {
-        ArrayList<User> users = new ArrayList();
+        ArrayList<User> users = new ArrayList<>();
 
         // Try opening the file.
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
@@ -68,7 +68,7 @@ public class Controller {
      * @return ArrayList<Event> contains all the events found in the file.
      */
     public static ArrayList<Event> parseEvents(String fileName) {
-        ArrayList<Event> events = new ArrayList();
+        ArrayList<Event> events = new ArrayList<>();
 
         // Try opening the file.
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {

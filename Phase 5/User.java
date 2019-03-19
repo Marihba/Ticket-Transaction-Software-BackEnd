@@ -2,7 +2,7 @@
  * A class to create and store all details for a User object.
  *
  * @author Stephanie Phung
- * @version 1.1
+ * @version 1.2
  */
 public class User extends Handler {
     // Private class variables for the User object.
@@ -16,8 +16,10 @@ public class User extends Handler {
      * @param trn the transaction string container all user data.
      */
     public User(String trn) {
-        username = parseData(trn, KEY_USER);
-        if (!username.equals(KEY_END)) {
+        if (trn.trim().equals(KEY_END)) {
+            throw new IllegalArgumentException("Invalid trn: \"" + trn + "\".");
+        } else {
+            username = parseData(trn, KEY_USER);
             userType = parseData(trn, KEY_TYPE);
             credit = Double.parseDouble(parseData(trn, KEY_CRED));
         }
