@@ -4,7 +4,7 @@
 * @author  Abhiram Sinnarajah
 * @author  Aaron Williams
 * @date 9 Mar 2019
-* @version 1.3
+* @version 1.4
 * @brief Runs the main program logic of the back end.
 */
 import java.util.ArrayList;
@@ -16,7 +16,12 @@ import java.io.IOException;
 import java.io.File;
 
 public class Controller {
+    // constants
     private final String KEY_END = "END";
+    private final int KEY_USERS = 11; // trivial
+    private final int KEY_EVENTS = 99; // trivial
+    private final int USER_LENGTH = 28; // length of a line in userFile
+    private final int EVENT_LENGTH = 52; // length of a line in ticketsFile
 
     // member variables
     private String userFile;
@@ -27,25 +32,41 @@ public class Controller {
     public Controller(String userFile, String ticketFile) {
       this.userFile = userFile;
       this.ticketFile = ticketFile;
-      parseUsers();
-      parseEvents();
+      users = new ArrayList<>();
+      events = new ArrayList<>();
+
+      parseData(KEY_USERS);
+      parseData(KEY_EVENTS);
     }
 
     /**
-     * Parses the current user accounts file and returns an ArrayList
-     * containing all the users.
+     * Parses the correct data file into the appropriate arraylist.
+     *
+     * @param key unique ID for type of data
      */
-    private void parseUsers() {
-        users = new ArrayList<>();
-
+    private void parseData(int key) {
         // Try opening the file.
-        try (BufferedReader br = new BufferedReader(new FileReader(userFile))) {
+        try {
+            FileReader fr = null;
+
+            // Select file based on the key.
+            if (key == KEY_USERS) {
+              fr = new FileReader(userFile);
+            } else if (key == KEY_EVENTS) {
+              fr = new FileReader(ticketFile);
+            }
+
+            BufferedReader br = new BufferedReader(fr);
             String line;
-            // While the file has a next line, create a new user.
+            // While the file has a next valid line, create a new user/event.
             while (((line = br.readLine()) != null) && !line.trim().equals(KEY_END)) {
-                User user = new User(line);
-                // If the username is valid, then add it to the list
-                users.add(user);
+                if (key == KEY_USERS) {
+                  User user = new User(line);
+                  users.add(user);
+                } else if (key == KEY_EVENTS) {
+                  Event event = new Event(line);
+                  events.add(event);
+                }
             }
             br.close();
         } catch (IOException e) { // Print error if exists.
@@ -54,111 +75,79 @@ public class Controller {
     }
 
     /**
-     * Parses the tickets file and returns an ArrayList
-     * containing all the events.
+     * Creates an appropriate object (user or event) and adds it to the
+     * appropriate private arraylist by checking of transaction string.
+     *
+     * @param trn transaction string containing the data.
      */
-    private void parseEvents() {
-        events = new ArrayList<>();
-
-        // Try opening the file.
-        try (BufferedReader br = new BufferedReader(new FileReader(ticketFile))) {
-            String line;
-            // While the file has a next line, create a new event.
-            while (((line = br.readLine()) != null) && !line.trim().equals(KEY_END)) {
-                Event event = new Event(line);
-                // If the event name is valid, then add it to the list.
-                events.add(event);
-            }
-            br.close();
-        } catch (IOException e) { // Print error if exists.
-            e.printStackTrace();
+    public void create(String trn) {
+        // TODO: check duplicates
+        if (trn.length() == USER_LENGTH) {
+          User user = new User(trn);
+          users.add(user);
+        } else if (trn.length() == EVENT_LENGTH) {
+          Event event = new Event(trn);
+          events.add(event);
         }
     }
 
     /**
-     * Creates a user and adds it to the ArrayList.
-     *
-     * @param trn transaction string containing the user data.
-     * @param users the array list to add to.
-     */
-    public void createUser(String trn) {
-        User user = new User(trn);
-        // TODO: check that there are no duplicate users
-        users.add(user);
-    }
-
-    /**
-     * Deletes the object that matches the given transaction string.
+     * Deletes the object that matches the given transaction string by
+     * going through the appropriate array list.
      *
      * @param trn transaction string containing data to delete.
-     * @param users search through this array list and delete the right object.
+     * @param list array list of type child of Handler
      */
-    public void deleteUser(String trn) {
-        // Go through the list.
-        for (int i = 0; i < users.size(); i++) {
+    public void delete(String trn, ArrayList<? extends Handler> list) {
+        for (int i = 0; i < list.size(); i++) {
             // If the data matches, remove it.
-            // TODO: maybe change the qualifier to identical username
-            if (trn.equals(users.get(i).toTRN())) {
-                users.remove(i);
+            if (trn.equals(list.get(i).getName())) {
+                list.remove(i);
+                return;
             }
         }
     }
 
     /**
-     * Creates an event and adds it to the ArrayList.
+     * Writes saved data to file.
      *
-     * @param trn transaction string containing the event data.
+     * @param list array list of type child of Handler
      */
-    public void createEvent(String trn) {
-        Event event = new Event(trn);
-        events.add(event);
-    }
-
-    /**
-     * Deletes the object that matches the given transaction string.
-     *
-     * @param trn transaction string containing data to delete.
-     */
-    public void deleteEvent(String trn) {
-        // Go through the list.
-        for (int i = 0; i < events.size(); i++) {
-            // If the data matches, remove it.
-            if (trn.equals(events.get(i).toTRN())) {
-                  events.remove(i);
-            }
-        }
-    }
-    // TODO: fix above same as user
-
-    // if true write to user file, if false, write to tickets file
-    private void write(boolean isUserFile) {
+    private void write(ArrayList<? extends Handler> list) {
       try {
-        File file = new File(ticketFile);
-        if (isUserFile) {
+        File file = null;
+        // Open appropriate file.
+        if (list.get(0) instanceof User) {
           file = new File(userFile);
+        } else if (list.get(0) instanceof Event) {
+          file = new File(ticketFile);
         }
+
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
-        if (isUserFile) {
-          for (User u : users) {
-            bw.write(u.toTRN() + "\n");
-          }
-          bw.write("END                         ");
-        } else {
-          for (Event e : events) {
-            bw.write(e.toTRN() + "\n");
-          }
-          bw.write("END                                                 ");
+        // Write data to file.
+        for (Handler h : list) {
+          bw.write(h.toTRN() + "\n");
         }
+        // Add final "END" keyword with appropriate padding.
+        int padding = list.get(0).toTRN().length() - KEY_END.length();
+        String end = KEY_END;
+        for (int i = 0; i < padding; i++) {
+          end += " ";
+        }
+        bw.write(end);
+        bw.close();
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
 
-    // save to both tickets and users file
+    /*
+    * Save to both tickets and users file.
+    */
     public void save() {
-      write(true);
-      write(false);
+      write(this.users);
+      write(this.events);
     }
 
     /**
@@ -279,21 +268,21 @@ public class Controller {
           case "01":
             String cre_Harness_Trn = trn.substring(3, 31);
             System.out.println("Applying steps for create...");
-            createUser(cre_Harness_Trn);
+            create(cre_Harness_Trn);
             System.out.println("Complete");
             break;
 
           case "02":
             String del_Harness_Trn = trn.substring(3, 31);
             System.out.println("Applying steps for delete!");
-            deleteUser(del_Harness_Trn);
+            delete(del_Harness_Trn, this.users);
             System.out.println("Complete");
             break;
 
           case "03":
             String sel_Harness_Trn = trn.substring(3, 55);
             System.out.println("Applying steps for sell!");
-            createEvent(sel_Harness_Trn);
+            create(sel_Harness_Trn);
             System.out.println("Complete");
             break;
 
@@ -362,8 +351,8 @@ public class Controller {
                   // remove available ticket if # of tickets == 0
                   if (events.get(i).getTickets() == 0) {
                     // passing in original transaction to remove the event from available ticket
-                    System.out.println("Tickts for " + events.get(i).getName() + " are all sold out!!");
-                    deleteEvent(b_Event + " " + b_Seller + " " + events.get(i).paddEventTicket() + " " + b_TickPrice);
+                    System.out.println("Tickets for " + events.get(i).getName() + " are all sold out!!");
+                    delete(b_Event + " " + b_Seller + " " + events.get(i).paddEventTicket() + " " + b_TickPrice, this.events);
                   }
                 }
               }

@@ -4,7 +4,7 @@
  * help manipulate data.
  *
  * @author Stephanie Phung
- * @version 1.1
+ * @version 1.4
  */
 public abstract class Handler {
     // Constants from the supposed format of the data files.
@@ -21,6 +21,12 @@ public abstract class Handler {
     protected static final int KEY_TICKET = 5;
     protected static final int KEY_PRICE = 6;
     protected static final String KEY_END = "END";
+
+    // The name of the object will be used as an identifier.
+    public abstract String getName();
+
+    // Used to write to file.
+    public abstract String toTRN();
 
     /**
      * Returns a value with whitespace removed if necessary.
