@@ -1,10 +1,9 @@
 /**
-* @file csci3060_team_surprised_pikachu\Version 1.0\Controller.java
+* @file csci3060_team_surprised_pikachu\Phase 5\Controller.java
 * @author  Stephanie Phung
 * @author  Abhiram Sinnarajah
 * @author  Aaron Williams
-* @date 9 Mar 2019
-* @version 1.5
+* @version 2.0
 * @brief Runs the main program logic of the back end.
 */
 import java.util.ArrayList;
@@ -56,19 +55,24 @@ public class Controller {
               fr = new FileReader(ticketFile);
             }
 
-            BufferedReader br = new BufferedReader(fr);
-            String line;
-            // While the file has a next valid line, create a new user/event.
-            while (((line = br.readLine()) != null) && !line.trim().equals(KEY_END)) {
-                if (key == KEY_USERS) {
-                  User user = new User(line);
-                  users.add(user);
-                } else if (key == KEY_EVENTS) {
-                  Event event = new Event(line);
-                  events.add(event);
+            if (fr == null) {
+              System.err.println("Error: Invalid key.");
+              System.exit(1);
+            } else {
+                BufferedReader br = new BufferedReader(fr);
+                String line;
+                // While the file has a next valid line, create a new user/event.
+                while (((line = br.readLine()) != null) && !line.trim().equals(KEY_END)) {
+                    if (key == KEY_USERS) {
+                      User user = new User(line);
+                      users.add(user);
+                    } else if (key == KEY_EVENTS) {
+                      Event event = new Event(line);
+                      events.add(event);
+                    }
                 }
+                br.close();
             }
-            br.close();
         } catch (IOException e) { // Print error if exists.
             e.printStackTrace();
         }
@@ -177,7 +181,7 @@ public class Controller {
         String credit = trn.substring(22, 31);
 
         for (int i=0; i<users.size(); i++) {
-          if (username.equals(users.get(i).paddUsername())) {
+          if (username.equals(users.get(i).getName())) {
             double newCredit = users.get(i).getCredit() + Double.parseDouble(credit);
             // check for overflow issue
             if (newCredit > 999999.99) {
@@ -211,13 +215,13 @@ public class Controller {
       // find the matching user object from list
         for (int i=0; i<users.size(); i++) {
           if (checkIncrease) {
-            if (increase.equals(users.get(i).paddUsername())) {
+            if (increase.equals(users.get(i).getName())) {
               increaseLoc = i;
               checkIncrease = false;
             }
           }
           if (checkDecrease) {
-            if (decrease.equals(users.get(i).paddUsername())) {
+            if (decrease.equals(users.get(i).getName())) {
               decreaseLoc = i;
               checkDecrease = false;
             }
@@ -264,7 +268,7 @@ public class Controller {
     * @brief Applies the changes based on the id from each transaction line. Invokes necessary methods for each matched
              possble actions create, delete, buy, sell, addcredit and refund. (Buy is a special case here**)
     * @param [in] trn     A string that representation of the transaction from reading the line. Transaction Buy in this
-                          case is a special case whichc gets padded with extra information that is needed for completion of
+                          case is a special case which gets padded with extra information that is needed for completion of
                           the transaction, buyer name.
     * @return void
     */
@@ -309,7 +313,7 @@ public class Controller {
 
             // update available tickets
             for (int i=0; i<events.size(); i++) {
-              if (b_Event.equals(events.get(i).paddEventName()) && b_Seller.equals(events.get(i).paddEventSeller())) {
+              if (b_Event.equals(events.get(i).getName()) && b_Seller.equals(events.get(i).getSeller())) {
                 double user_avail = Double.parseDouble(b_available);
                 int buyable_Tickets = 0;
                 double currentPrice = 0.0;
@@ -359,8 +363,8 @@ public class Controller {
                   // remove available ticket if # of tickets == 0
                   if (events.get(i).getTickets() == 0) {
                     // passing in original transaction to remove the event from available ticket
-                    System.out.println("Tickets for " + events.get(i).getName() + " are all sold out!!");
-                    delete(b_Event + " " + b_Seller + " " + events.get(i).paddEventTicket() + " " + b_TickPrice, this.events);
+                    System.out.println("Tickets for:\n\t" + events.get(i).getName() + "\nare all sold out!!");
+                    delete(events.get(i).toTRN(), this.events);
                   }
                 }
               }

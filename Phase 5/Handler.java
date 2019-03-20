@@ -4,7 +4,7 @@
  * help manipulate data.
  *
  * @author Stephanie Phung
- * @version 1.4
+ * @version 2.0
  */
 public abstract class Handler {
     // Constants from the supposed format of the data files.
@@ -27,29 +27,6 @@ public abstract class Handler {
 
     // Used to write to file.
     public abstract String toTRN();
-
-    /**
-     * Returns a value with whitespace removed if necessary.
-     *
-     * @param trn transaction string of the data.
-     * @param removeWhitespace true if we need to remove whitespace.
-     * @param offset the beginning of the string value in the transaction string.
-     * @param end points to the end of the string value in the transaction string.
-     * @return String the trimmed value.
-     */
-    protected String parseValue(String trn, boolean removeWhitespace, int offset, int end) {
-        if (removeWhitespace) {
-            // Read from right to left.
-            for (; end > offset + 1; end--) {
-                // If the character is not a space, then return it.
-                if (trn.charAt(end) != ' ') {
-                    return trn.substring(offset, end + 1);
-                }
-            }
-        }
-        // Otherwise, return the value.
-        return trn.substring(offset, end);
-    }
 
     /**
      * Adds spaces or zeroes as padding to data, as necessary.

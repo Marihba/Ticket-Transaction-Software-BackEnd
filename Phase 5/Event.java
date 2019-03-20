@@ -3,7 +3,7 @@
  * A class to manipulate Event objects.
  *
  * @author Stephanie Phung
- * @version 1.3
+ * @version 2.0
  */
 public class Event extends Handler {
     // Private variables for an Event object.
@@ -89,7 +89,6 @@ public class Event extends Handler {
     private String parseData(String trn, int dataType) {
         int end = LENGTH_EVENT; // points to the end of the string
         int offset = 0; // points to the beginning of the string
-        boolean removeWhitespace = true; // typically used for non-numerical data
 
         // Set the offset for the type of data.
         // This is set based on the format of the file.
@@ -99,26 +98,12 @@ public class Event extends Handler {
         } else if (dataType == KEY_TICKET) { // if returning number of tickets for sale
             offset = end + LENGTH_USER + 2;
             end = offset + LENGTH_TICKET;
-            removeWhitespace = false;
         } else if (dataType == KEY_PRICE) { // if returning price per ticket
             offset = end + LENGTH_USER + LENGTH_TICKET + 3;
             end = offset + LENGTH_PRICE;
-            removeWhitespace = false;
         }
 
         // Returns the requested data.
-        return parseValue(trn, removeWhitespace, offset, end);
-    }
-
-    public String paddEventName() {
-      return paddSpaces(KEY_EVENT, this.eventName);
-    }
-
-    public String paddEventSeller() {
-      return paddSpaces(KEY_USER, this.seller);
-    }
-
-    public String paddEventTicket() {
-      return paddSpaces(KEY_TICKET, String.valueOf(this.numTickets));
+        return trn.substring(offset, end);
     }
 }

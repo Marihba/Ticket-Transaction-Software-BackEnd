@@ -2,7 +2,7 @@
  * A class to create and store all details for a User object.
  *
  * @author Stephanie Phung
- * @version 1.2
+ * @version 2.0
  */
 public class User extends Handler {
     // Private class variables for the User object.
@@ -86,30 +86,18 @@ public class User extends Handler {
     private String parseData(String trn, int dataType) {
         int end = LENGTH_USER; // points to the end of the string
         int offset = 0; // points to the beginning of the string
-        boolean removeWhitespace = true; // typically used for non-numerical data
 
         // Set the offset for the type of data.
         // This is set based on the format of the file.
         if (dataType == KEY_TYPE) { // if returning user account type
             offset = end + 1;
             end = offset + LENGTH_TYPE;
-            removeWhitespace = false;
         } else if (dataType == KEY_CRED) { // if returning credit amount
             offset = end + LENGTH_TYPE + 2;
             end = offset + LENGTH_CRED;
-            removeWhitespace = false;
         }
 
         // Returns the requested data.
-        return parseValue(trn, removeWhitespace, offset, end);
-    }
-
-    // for testing purposes only
-    public String toString() {
-      return this.username + " " + this.userType + " " + this.credit;
-    }
-
-    public String paddUsername() {
-      return paddSpaces(KEY_USER, this.username);
+        return trn.substring(offset, end);
     }
 }
