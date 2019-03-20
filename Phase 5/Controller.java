@@ -173,11 +173,6 @@ public class Controller {
     * @param [in] trn    A string representation of a transaction from the merged Daily transaction File (DTF)
     */
     public void addCredit(String trn) {
-      // method to add credit to a user based on the information provided from the array list and transaction
-      if (trn.length() != 31) {
-        System.err.println("Transaction length is incorrect");
-        System.exit(0);
-      } else {
         String username = trn.substring(3, 18);
         String credit = trn.substring(22, 31);
 
@@ -194,14 +189,15 @@ public class Controller {
           }
         }
       }
-    }
 
-    //TODO: Fix comment for this method
+
+
     /**
     * @brief To update a buyer's available credit and seller's available credit based on the specified amount
              indiciated by the transaction string of a current user.
-    * @param [in] trn    A string representation of a transaction from the merged Daily transaction File (DTF)
-                  users  An ArrayList object that contains all the user's on the Current User Accounts File
+    * @param [in] increase    A string that represents the name of the user object that will receive the increase in their available credit
+                  decreasee   A string that represents the name of the user object that will decrease their available credit
+                  credit      A string representation of the amount to adjust the credit of specified users by.
     * @return void
     */
     public void refundCredit(String increase, String decrease, String credit) {
@@ -237,21 +233,15 @@ public class Controller {
         }
       }
 
-    // TODO: Fix comment for this method
     /**
-    * @brief To update the buyer's available credit and seller's available credit based on the specified amount
-             of tickets purchased and also decrement the number of available tickets for that event.
-    * @param [in] trn    A string representation of a transaction from the merged Daily transaction File (DTF)
-                  users  An ArrayList object that contains all the user's on the Current User Accounts File
-                  events An ArrayList object that contains all the events on the available tickets File
-    * @return void
+    * @brief A companion method for the enforce rules. The goal here is to parse the data of buyerstring & logoutString
+             to retreieve key information that will be needed for the enforce rules, specifically for buy transaction.
+             To retrieve information about seller, we need to take hold of the information of buyer
+    * @param [in] buyerString   A string that contains various useful information needed for enforce rules.
+                  logoutString  An ArrayList object that contains all the user's on the Current User Accounts File
+    * @return String            A string that is compatible and meets all the required information to apply the buy transaction.
     */
     public static String buyTrnString(String buyerString, String logoutString) {
-      // assume only one transaction line for now
-      //String originalTrn = buyerString.substring(3, 55);
-
-      // create a loop to be able to handle more than one buy
-
       String buyer = logoutString.substring(3, 18);
       String buyer_avail_credit = logoutString.substring(22, 31);
       String seller = buyerString.substring(29, 44);
@@ -270,11 +260,12 @@ public class Controller {
         + buyer_avail_credit+"\n"+price;
     }
 
-    // TODO: Fix comment for this method
     /**
     * @brief Applies the changes based on the id from each transaction line. Invokes necessary methods for each matched
-             possble actions (create, delete, buy, sell, addcredit and refund).
-    * @param [in] id     Identifies each transaction line based on either types of transactions.
+             possble actions create, delete, buy, sell, addcredit and refund. (Buy is a special case here**)
+    * @param [in] trn     A string that representation of the transaction from reading the line. Transaction Buy in this
+                          case is a special case whichc gets padded with extra information that is needed for completion of
+                          the transaction, buyer name.
     * @return void
     */
     public void enforceRules(String trn) {
