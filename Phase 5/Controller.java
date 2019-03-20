@@ -4,7 +4,7 @@
 * @author  Abhiram Sinnarajah
 * @author  Aaron Williams
 * @date 9 Mar 2019
-* @version 1.4
+* @version 1.5
 * @brief Runs the main program logic of the back end.
 */
 import java.util.ArrayList;
@@ -81,14 +81,31 @@ public class Controller {
      * @param trn transaction string containing the data.
      */
     public void create(String trn) {
-        // TODO: check duplicates
         if (trn.length() == USER_LENGTH) {
           User user = new User(trn);
-          users.add(user);
+          if (!duplicateExists(user.getName(), this.users)) {
+            users.add(user);
+          }
         } else if (trn.length() == EVENT_LENGTH) {
           Event event = new Event(trn);
-          events.add(event);
+          if (!duplicateExists(event.getName(), this.events)) {
+            events.add(event);
+          }
         }
+    }
+
+    /**
+     * Returns true if a there is an object with the same name in the list.
+     *
+     * @return boolean true if duplicate exists.
+     */
+    private boolean duplicateExists(String name, ArrayList<? extends Handler> list) {
+        for (Handler h : list) {
+            if (h.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
