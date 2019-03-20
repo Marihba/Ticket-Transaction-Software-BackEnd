@@ -3,7 +3,7 @@
  * A class to manipulate Event objects.
  *
  * @author Stephanie Phung
- * @version 1.2
+ * @version 1.3
  */
 public class Event extends Handler {
     // Private variables for an Event object.
@@ -24,7 +24,7 @@ public class Event extends Handler {
             eventName = parseData(trn, KEY_EVENT);
             seller = parseData(trn, KEY_USER);
             numTickets = Integer.parseInt(parseData(trn, KEY_TICKET));
-            ticketPrice = Double.parseDouble(parseData(trn, KEY_PRICE)); 
+            ticketPrice = Double.parseDouble(parseData(trn, KEY_PRICE));
         }
     }
 
@@ -35,6 +35,15 @@ public class Event extends Handler {
      */
     public String getName() {
         return eventName;
+    }
+
+    /**
+     * Return the name of the seller.
+     *
+     * @return String name of seller.
+     */
+    public String getSeller() {
+      return seller;
     }
 
     /**
@@ -99,5 +108,17 @@ public class Event extends Handler {
 
         // Returns the requested data.
         return parseValue(trn, removeWhitespace, offset, end);
+    }
+
+    public String paddEventName() {
+      return paddSpaces(KEY_EVENT, this.eventName);
+    }
+
+    public String paddEventSeller() {
+      return paddSpaces(KEY_USER, this.seller);
+    }
+
+    public String paddEventTicket() {
+      return paddSpaces(KEY_TICKET, String.valueOf(this.numTickets));
     }
 }
