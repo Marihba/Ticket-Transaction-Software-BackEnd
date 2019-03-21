@@ -16,7 +16,7 @@ public class TestRunner {
         // For every failure, if exists, print out the
         // cause of the error (failed test and details).
         for (Failure failure : result.getFailures()) {
-            System.out.println(failure.toString());
+            System.out.println("Test failed: " + failure.toString());
         }
         
         // Else, assume all tests passed.

@@ -25,8 +25,8 @@ public class Controller {
     // member variables
     private String userFile;
     private String ticketFile;
-    private ArrayList<User> users;
-    private ArrayList<Event> events;
+    public ArrayList<User> users;
+    public ArrayList<Event> events;
 
     public Controller(String userFile, String ticketFile) {
       this.userFile = userFile;
@@ -43,7 +43,7 @@ public class Controller {
      *
      * @param key unique ID for type of data
      */
-    private void parseData(int key) {
+    protected void parseData(int key) {
         // Try opening the file.
         try {
             FileReader fr = null;
@@ -56,7 +56,7 @@ public class Controller {
             }
 
             if (fr == null) {
-              System.err.println("Error: Invalid key.");
+              System.err.println("ERROR: Invalid key.");
               System.exit(1);
             } else {
                 BufferedReader br = new BufferedReader(fr);
@@ -80,7 +80,7 @@ public class Controller {
 
     /**
      * Creates an appropriate object (user or event) and adds it to the
-     * appropriate private arraylist by checking of transaction string.
+     * appropriate prott  protected arraylist by checking of transaction string.
      *
      * @param trn transaction string containing the data.
      */
@@ -89,11 +89,15 @@ public class Controller {
           User user = new User(trn);
           if (!duplicateExists(user.getName(), this.users)) {
             users.add(user);
+          } else {
+            System.err.println("ERROR: User already exists");
           }
         } else if (trn.length() == EVENT_LENGTH) {
           Event event = new Event(trn);
           if (!duplicateExists(event.getName(), this.events)) {
             events.add(event);
+          } else {
+            System.err.println("ERROR: Event already exists");
           }
         }
     }
@@ -103,7 +107,7 @@ public class Controller {
      *
      * @return boolean true if duplicate exists.
      */
-    private boolean duplicateExists(String name, ArrayList<? extends Handler> list) {
+    protected boolean duplicateExists(String name, ArrayList<? extends Handler> list) {
         for (Handler h : list) {
             if (h.getName().equals(name)) {
                 return true;
@@ -134,7 +138,7 @@ public class Controller {
      *
      * @param list array list of type child of Handler
      */
-    private void write(ArrayList<? extends Handler> list) {
+    protected void write(ArrayList<? extends Handler> list) {
       try {
         File file = null;
         // Open appropriate file.
@@ -185,7 +189,7 @@ public class Controller {
             double newCredit = users.get(i).getCredit() + Double.parseDouble(credit);
             // check for overflow issue
             if (newCredit > 999999.99) {
-               System.out.println("Constraint Error: Overflow");
+               System.out.println("ERROR: Overflow");
             } else {
                users.get(i).setCredit(newCredit);
             }
@@ -233,7 +237,7 @@ public class Controller {
           users.get(increaseLoc).setCredit(users.get(increaseLoc).getCredit() + Double.parseDouble(credit));
           users.get(decreaseLoc).setCredit(users.get(decreaseLoc).getCredit() - Double.parseDouble(credit));
         } else {
-          System.out.println("Constraint Error: Overflow");
+          System.out.println("ERROR: Overflow");
         }
       }
 
@@ -370,7 +374,7 @@ public class Controller {
               }
             }
             if (rejectTransaction) {
-              System.out.println("Constraint Error: Unable to purchase due to lack of available funds");
+              System.out.println("ERROR: Unable to purchase due to lack of available funds");
             } else {
                 refundCredit(b_Seller, b_Buyer, b_Total); // update credit from buy transaction using refund method
             }
