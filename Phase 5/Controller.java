@@ -23,8 +23,8 @@ public class Controller {
     private final int EVENT_LENGTH = 52; // length of a line in ticketsFile
 
     // member variables
-    private String userFile;
-    private String ticketFile;
+    public String userFile;
+    public String ticketFile;
     public ArrayList<User> users;
     public ArrayList<Event> events;
 
@@ -43,7 +43,7 @@ public class Controller {
      *
      * @param key unique ID for type of data
      */
-    protected void parseData(int key) {
+    public void parseData(int key) {
         // Try opening the file.
         try {
             FileReader fr = null;
@@ -138,7 +138,7 @@ public class Controller {
      *
      * @param list array list of type child of Handler
      */
-    protected void write(ArrayList<? extends Handler> list) {
+    private void write(ArrayList<? extends Handler> list) {
       try {
         File file = null;
         // Open appropriate file.
