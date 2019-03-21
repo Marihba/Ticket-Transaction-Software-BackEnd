@@ -74,8 +74,8 @@ public class TestController extends TestCase {
     // loop and decision tests
     @Test
     public void testUserParse() {
-      controller.userFile = "one_user.data";
-      controller.ticketFile = ticketFile;
+      String userFile = "one_user.data";
+      controller = new Controller(userFile, ticketFile);
       controller.events = new ArrayList<>();
       controller.users = new ArrayList<>();
 
@@ -85,8 +85,8 @@ public class TestController extends TestCase {
 
     @Test
     public void testEventParse() {
-      controller.userFile = userFile;
-      controller.ticketFile = "test_available_tickets.data";
+      String ticketFile = "test_available_tickets.data";
+      controller = new Controller(userFile, ticketFile);
       controller.events = new ArrayList<>();
       controller.users = new ArrayList<>();
 
