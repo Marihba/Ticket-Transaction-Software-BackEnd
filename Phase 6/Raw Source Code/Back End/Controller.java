@@ -432,6 +432,7 @@ public class Controller {
               // this means "00" so the following line is not apart of the previous dtf
               else {
                 sameDTF = false;
+                buy_Trn = "";
               }
             }
           }
