@@ -1,0 +1,33 @@
+sell
+temp event title
+1
+1
+login
+admin
+sell
+admin event title
+1
+1
+logout
+login
+standard
+sell
+standard event title
+1
+1
+logout
+login
+buyer
+sell
+buyer event title
+1
+1
+logout
+login
+seller
+sell
+seller event title
+1
+1
+logout
+exit
