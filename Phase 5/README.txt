@@ -7,3 +7,6 @@ javac -cp .:junit-4.10.jar *.java
 
 4. Run Test cases by using:
 java -cp .:junit-4.10.jar TestRunner
+
+to run code use:
+java Controller
