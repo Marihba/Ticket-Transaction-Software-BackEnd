@@ -45,7 +45,7 @@ if [ ! -z "$1" ]; then
   done
   echo "00                                                     " >> "$INPUTS/merged_DTF.output"
   echo "Running changes through the Back end"
-  cd "$HOME"
+  cd "$HOME"/back_end
   java Controller "$INPUTS/current_user_accounts.data" "$INPUTS/available_tickets.data" "$INPUTS/merged_DTF.output"
 else
   echo "Day argument has not been specified; use './daily.sh <DayX>'"
