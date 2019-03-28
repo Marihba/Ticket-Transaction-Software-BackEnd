@@ -158,6 +158,7 @@ Account TicketTransaction::Execute(int transaction_code) {
 	} else if (transaction_code == kSellTransactionCode) {
 		do {
 			cout << "Please enter the event title:\n> ";
+			cin.ignore();
 			getline(cin, event_title_);
 		} while (!IsValid(kKeyEventName, event_title_));
 
