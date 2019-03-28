@@ -9,7 +9,7 @@
 *
 * @author Stephanie Phung
 * @author Matt Chan
-* @version 3.0
+* @version 3.1
 */
 class TicketTransaction : public Transaction {
 	string tickets_file_;
@@ -72,7 +72,7 @@ public:
 	const int kSellTransactionCode = 3;
 	const int kBuyTransactionCode = 4;
 	const double kMaxTicketPrice = 999.99;
-	const double kMaxNumTickets = 100;
+	const double kMaxNumTickets = 999;
 
 	/**
 	* Initializes a TicketTransaction for an account, and saves the name

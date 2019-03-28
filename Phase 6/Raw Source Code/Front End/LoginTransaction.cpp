@@ -68,7 +68,8 @@ LoginTransaction::LoginTransaction(string current_user_accounts_file) {
 Account LoginTransaction::Execute(int transaction_code) {
 	string username;
 	cout << "Please enter your username:\n>";
-	cin >> username;
+	cin.ignore();
+	getline(cin, username);
 	if(!LoginSuccessful(username)) {
 		account_.SetName("");
 	}
