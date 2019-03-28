@@ -427,6 +427,7 @@ public class Controller {
                   //c1.enforceRules(buyTrnString(allBuyerStrings[i], logout_Trn));
                   enforceRules(allBuyerStrings[i] + "\n" + logout_Trn);
                 }
+                sameDTF = false;
                 //c1.enforceRules(buyTrnString(buy_Trn, logout_Trn));
               }
               // this means "00" so the following line is not apart of the previous dtf
